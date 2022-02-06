@@ -12,10 +12,10 @@ INSTALLED_APPS += [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd405vd3or6dahc',
-        'USER': 'opinlszxzbjbss',
-        'PASSWORD': '924318280b3bb1bd626537181ab2ee8e6bbdd7ea337c46a54cc6318f8eaf33de',
-        'HOST': 'ec2-54-164-56-10.compute-1.amazonaws.com',
+        'NAME': 'd2pa8r8sk66a4t',
+        'USER': 'gllfoqwzfpghdu',
+        'PASSWORD': 'bb0b94ff14a652403b838b11cbac773484970c13a94be68d03c791b524bb9421',
+        'HOST': 'ec2-54-157-15-228.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }
