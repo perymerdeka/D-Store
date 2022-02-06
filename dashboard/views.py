@@ -1,6 +1,10 @@
+from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.forms import inlineformset_factory
 from django.contrib.auth.decorators import login_required
+
+
+from .decorators import admin_only, allowed_users
 
 from .forms import OrderForm
 from .filters import OrderFilter
@@ -11,6 +15,7 @@ from .models import *
 
 
 @login_required(login_url="login")
+@admin_only
 def home(request):
     orders = Order.objects.all()
     customers = Customer.objects.all()
@@ -34,6 +39,7 @@ def home(request):
 
 
 @login_required(login_url="login")
+@allowed_users(allowed_roles=['admin'])
 def products(request):
     products = Product.objects.all()
     context: dict = {"products": products}
@@ -41,6 +47,7 @@ def products(request):
 
 
 @login_required(login_url="login")
+@allowed_users(allowed_roles=['admin'])
 def customer(request, name):
     customer = Customer.objects.get(name=name)
     orders = customer.order_set.all()
@@ -79,6 +86,7 @@ def createOrder(request, pk):
 
 
 @login_required(login_url="login")
+@allowed_users(allowed_roles=['admin'])
 def updateOrder(request, pk: int):
     order = Order.objects.get(id=pk)
     form = OrderForm(instance=order)
@@ -93,6 +101,7 @@ def updateOrder(request, pk: int):
 
 
 @login_required(login_url="login")
+@allowed_users(allowed_roles=['admin'])
 def deleteOrder(request, pk: int):
     order = Order.objects.get(id=pk)
     if request.method == "POST":
