@@ -1,0 +1,20 @@
+{% extends 'dashboard/base.html' %}
+
+
+{% block title %}
+    Delete this {{ item }}
+{% endblock title %}
+
+
+
+{% block contents %}
+    <p>Delete {{ item }} </p>
+
+    <form action="{% url 'delete_order' item.id %}" method="post">
+        {% csrf_token %}
+        <a href="{% url 'home' %}" class="btn btn-info">Cancel</a>
+        <button type="submit" class="btn btn-danger">Delete Item</button>
+    </form>
+{% endblock contents %}
+    
+    
