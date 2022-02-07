@@ -54,9 +54,3 @@ def registerPage(request: HttpRequest):
 def logoutUser(request: HttpRequest):
     logout(request) 
     return redirect('login')
-
-@allowed_users(allowed_roles=['customer'])
-def profile(request: HttpRequest):
-
-    context: dict = {}
-    return render(request, 'accounts/show_profile.html', context=context)

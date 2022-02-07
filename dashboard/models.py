@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -8,9 +9,11 @@ class Tag(models.Model):
     def __str__(self) -> str:
         return self.name
 class Customer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=200, null=True)
     email = models.EmailField(max_length=200, null=True)
     phone = models.CharField(max_length=200, null=True)
+    profile_pic = models.ImageField(upload_to='profile/', default='profile/default.png')
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:

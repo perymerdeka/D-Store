@@ -33,7 +33,7 @@ def admin_only(view_func: Callable):
         if group == "admin":
             return view_func(request, *args, **kwargs)
         else:
-            return redirect('register')
+            return redirect('login')
 
 
     return wrapper_function

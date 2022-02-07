@@ -22,9 +22,10 @@ def home(request):
 
     # sum the product
     total_order = orders.count()
-    total_customer = customers.count()
     delivered = orders.filter(status="Delivered").count()
     pending = orders.filter(status="Pending").count()
+
+    total_customer = customers.count()
 
     context: dict = {
         "orders": orders,
@@ -39,7 +40,7 @@ def home(request):
 
 
 @login_required(login_url="login")
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=["admin"])
 def products(request):
     products = Product.objects.all()
     context: dict = {"products": products}
@@ -47,7 +48,7 @@ def products(request):
 
 
 @login_required(login_url="login")
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=["admin"])
 def customer(request, name):
     customer = Customer.objects.get(name=name)
     orders = customer.order_set.all()
@@ -86,7 +87,7 @@ def createOrder(request, pk):
 
 
 @login_required(login_url="login")
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=["admin"])
 def updateOrder(request, pk: int):
     order = Order.objects.get(id=pk)
     form = OrderForm(instance=order)
@@ -101,7 +102,7 @@ def updateOrder(request, pk: int):
 
 
 @login_required(login_url="login")
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=["admin"])
 def deleteOrder(request, pk: int):
     order = Order.objects.get(id=pk)
     if request.method == "POST":
@@ -110,3 +111,25 @@ def deleteOrder(request, pk: int):
 
     context: dict = {"item": order}
     return render(request, "dashboard/partials/delete.html", context=context)
+
+
+@allowed_users(allowed_roles=["customer"])
+def profile(request: HttpRequest):
+
+    orders = request.user.customer.order_set.all()
+    
+    customerFilter = OrderFilter(request.GET, queryset=orders)
+    orders = customerFilter.qs
+    total_order = orders.count()
+    delivered = orders.filter(status="Delivered").count()
+    pending = orders.filter(status="Pending").count()
+    
+
+    context: dict = {
+        "orders": orders,
+        "customerFilter": customerFilter,
+        "total_order": total_order,
+        "delivered": delivered,
+        "pending": pending,
+    }
+    return render(request, "dashboard/show_profile.html", context=context)

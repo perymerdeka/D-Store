@@ -1,14 +1,16 @@
 from django.urls import path
 
-from .views import *
+from . import views
 
 urlpatterns = [
-    path('', home, name='home'),
-    path('products/', products, name='products'),
-    path('customer/<str:name>', customer, name='customer'),
+    path('', views.home, name='home'),
+    path('products/', views.products, name='products'),
+    path('customer/<str:name>', views.customer, name='customer'),
 
-    path('create-order/<int:pk>', createOrder, name='create_order'),
-    path('update-order/<int:pk>', updateOrder, name='update_order'),
-    path('delete-order/<int:pk>', deleteOrder, name='delete_order'),
+    path('create-order/<int:pk>', views.createOrder, name='create_order'),
+    path('update-order/<int:pk>', views.updateOrder, name='update_order'),
+    path('delete-order/<int:pk>', views.deleteOrder, name='delete_order'),
+
+    path("show-profile/", views.profile, name="show_profile"),
 
 ]
