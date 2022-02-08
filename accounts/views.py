@@ -42,9 +42,6 @@ def registerPage(request: HttpRequest):
             user = form.save()
             username = form.cleaned_data.get("username")
 
-            group = Group.objects.get(name="customer")
-            user.groups.add(group)
-
             messages.success(request, f"Accounts has Created for {username}")
             return redirect("login")
 
